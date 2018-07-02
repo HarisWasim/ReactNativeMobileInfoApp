@@ -3,14 +3,17 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import MissingOrderDetail from './MissingOrderDetail';
 
+
 export default class OrderList extends Component {
 
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             response: [],
-            refreshing: false
+            refreshing: false,
+            searchedResponse: [],
+            renderSearch: false
         }
         this.initializeRefresh();
     }
@@ -19,48 +22,62 @@ export default class OrderList extends Component {
         this.initializeRefresh();
     }
 
-     //run when the app is refreshing
-     _onRefresh = () => {
-        this.setState({ refreshing: true });
-        axios.get('http://localhost:3000/response')
-        .then((response) => {
-                this.setState({ response: response.data });
-                this.setState({ refreshing: false });
-            }
-        )
-        .catch(error => console.log(error))
+    componentWillReceiveProps({ searchedOrder }) {
+        if (searchedOrder !== '') {
+            let searchedResponse = [];
+            this.state.response.map((orderItem) => {
+                let orderId = orderItem.orderId;
+                if (orderId.toString().substr(0, (searchedOrder.toString().length)) === searchedOrder.toString()) {
+                    searchedResponse.push(orderItem);
+                }
+            })
+            this.setState({
+                searchedResponse: searchedResponse,
+                renderSearch: true
+            })
+        } else{
+            this.setState({ renderSearch: false })
+        }
     }
 
-    // send request to server to obtain the most updated data
-    //runs when swipe down on screen
-    sendRequest() {
+    //run when the app is refreshing
+    _onRefresh = () => {
         this.setState({ refreshing: true });
         axios.get('http://localhost:3000/response')
-        .then((response) => {
+            .then((response) => {
                 this.setState({ response: response.data });
                 this.setState({ refreshing: false });
             }
-        )
-        .catch(error => console.log(error))
+            )
+            .catch(error => console.log(error))
     }
+
     // runs in constructor and componentWillMount to prevent
     // loading symbol from showing up when not pulling down
     initializeRefresh = () => {
         axios.get('http://localhost:3000/response')
-        .then((response) => {
+            .then((response) => {
                 this.setState({ response: response.data });
             }
-        )
-        .catch(error => console.log(error))
+)
+            .catch(error => console.log(error))
     }
 
     // show all orders in order list through mapping function
     renderOrders() {
-        return (
-            this.state.response.map(object =>
-                <MissingOrderDetail key={object.orderId} order={object} />
+        if (!this.state.renderSearch) {
+            return (
+                this.state.response.map(object =>
+                    <MissingOrderDetail key={object.orderId} order={object} />
+                )
             )
-        )
+        } else {
+            return (
+                this.state.searchedResponse.map(object =>
+                    <MissingOrderDetail key={object.orderId} order={object} />
+                )
+            )
+        }
     }
 
     render() {
@@ -77,6 +94,20 @@ export default class OrderList extends Component {
     };
 }
 
+
+
+// send request to server to obtain the most updated data
+    // //runs when swipe down on screen
+    // sendRequest() {
+    //     this.setState({ refreshing: true });
+    //     axios.get('http://localhost:3000/response')
+    //         .then((response) => {
+    //             this.setState({ response: response.data });
+    //             this.setState({ refreshing: false });
+    //         }
+    //         )
+    //         .catch(error => console.log(error))
+    // }
 
 /* COULD GO IN ComponentWillMount()
         
