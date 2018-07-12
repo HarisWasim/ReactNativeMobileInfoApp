@@ -6,16 +6,26 @@ export default class SearchFunction extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { text: '' };
+        this.state = {
+            text: '',
+            outputArrowDecision: this.props.outputArrowDecision,
+            isArrow: this.props.isArrow
+        };
+    }
+
+    componentWillReceiveProps({ isArrow }) {
+        this.setState({
+            isArrow: isArrow
+        })
     }
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
                 <View style={{ padding: 10 }}>
                     <TextInput
                         style={{ height: 40 }}
-                        placeholder="Search By OrderID: 1234567 "
+                        placeholder="Search By OrderID: "
                         onChangeText={(text) => this.setState({ text })}
                     />
                     <Text
@@ -23,11 +33,10 @@ export default class SearchFunction extends Component {
                             paddingTop: 10,
                             fontSize: 30
                         }}>
-                        {/* {this.state.text.split(' ').map((word) => word && '🍕').join(' ')} */}
                         {`Order ID: ${this.state.text}`}
                     </Text>
                 </View>
-                <OrderList searchedOrder={this.state.text} />
+                <OrderList searchedOrder={this.state.text} outputArrowDecision={this.state.outputArrowDecision} isArrow={this.state.isArrow} />
             </View>
         )
     }

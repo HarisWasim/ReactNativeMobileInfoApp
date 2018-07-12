@@ -15,15 +15,20 @@ const styles = {
         borderWidth: 1,
         borderRadius: 2,
         borderColor: '#ddd',
-        borderBottomWidth: 0,
+        borderBottomWidth: 2,
+        display: 'flex',
+        elevation: 1,
+        flexDirection: 'row',
+        flex: 1,
+        minHeight: 100,
+        justifyContent: "space-between",
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 20,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
-        elevation: 1,
-        marginLeft: 5,
-        marginRight: 5,
-        marginTop: 10
     }
 }
 

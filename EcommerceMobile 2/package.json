@@ -1,5 +1,5 @@
 {
-  "name": "EcommerceMobile",
+  "name": "ecommercemobile",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,9 +8,14 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "mysql": "^2.15.0",
     "react": "^16.3.1",
     "react-cli": "^0.3.1",
-    "react-native": "^0.55.4"
+    "react-native": "^0.55.4",
+    "react-native-cli": "^2.0.1",
+    "react-native-vector-icons": "^4.6.0",
+    "tedious": "^2.6.1",
+    "yarn": "^1.7.0"
   },
   "devDependencies": {
     "babel-jest": "23.2.0",
@@ -20,5 +25,10 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "description": "second version of all the packages for the project",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "keywords": []
 }
